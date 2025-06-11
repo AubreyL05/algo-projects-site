@@ -3,13 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <title>Sorting Visualizer</title>
+  <link rel="stylesheet" href="css/sorting.css" />
 </head>
+
 <body>
   <h1>Sorting Visualizer</h1>
-  <p>This is where the sorting visualization will go.</p>
-  
-  <nav>
-    <a href="../index.html">Back to Home</a>
-  </nav>
+
+  <label for="algo-select">Choose an algorithm:</label>
+  <select id="algo-select" class="control">
+    <option value="bubble">Bubble Sort</option>
+    <option value="selection">Selection Sort</option>
+    <option value="insertion">Insertion Sort</option>
+  </select>
+
+  <button onclick="runSort()"class="control">Sort</button><br>
+
+  <label for="size-input">Array Size:</label>
+  <input type="number" id="size-input" class="control" value="20" min="5" max="200" />
+
+
+  <label for="speedRange">Speed: 1</label>
+  <input type="range" id="speedRange" min="1" max="100" value="20" />
+  <span id="speedValue">100</span>
+
+  <div id="container"></div>
+  <script src="js/sorting.js"></script>
+
+  <button onclick="generateBars()" class="control">Generate New Array</button><br>
+
+  <a href="../index.html">Back to Home</a>
+
 </body>
+
+</html>
 </html>
