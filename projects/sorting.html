@@ -7,6 +7,7 @@
 </head>
 
 <body>
+  <div class="page-container">
   <h1>Sorting Visualizer</h1>
 
   <label for="algo-select">Choose an algorithm:</label>
@@ -16,24 +17,25 @@
     <option value="insertion">Insertion Sort</option>
   </select>
 
-  <button onclick="runSort()"class="control">Sort</button><br>
+  <button onclick="runSort()"class="control">Sort</button>
+  <button id="pauseBtn" onclick="togglePause()" class="control">Pause</button><br>
 
-  <label for="size-input">Array Size:</label>
+  <label for="size-input">Array Size (5-200):</label>
   <input type="number" id="size-input" class="control" value="20" min="5" max="200" />
 
 
-  <label for="speedRange">Speed: 1</label>
-  <input type="range" id="speedRange" min="1" max="100" value="20" />
-  <span id="speedValue">100</span>
+  <label for="speedRange">Speed: </label>
+  <input type="range" id="speedRange" min="1" max="500" value="20" />
+  <span id="speedValue">500ms</span>
 
   <div id="container"></div>
   <script src="js/sorting.js"></script>
 
-  <button onclick="generateBars()" class="control">Generate New Array</button><br>
+  <button onclick="generateBars()" class="control">Generate New Array</button><br><br>
 
   <a href="../index.html">Back to Home</a>
 
+</div>
 </body>
 
-</html>
 </html>

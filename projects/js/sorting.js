@@ -1,12 +1,26 @@
 const container = document.getElementById("container");
 const sizeInput = document.getElementById("size-input");
 let values = [];
+let isPaused = false;
+let isSorting = false;
 
 
 function toggleControls(disabled) {
   document.querySelectorAll(".control").forEach(el => {
-    el.disabled = disabled;
+    if (el.id !== "pauseBtn") {
+      el.disabled = disabled;
+    }
   });
+}
+
+function togglePause() {
+  isPaused = !isPaused;
+
+  const pauseBtn = document.getElementById("pauseBtn");
+  pauseBtn.textContent = isPaused ? "Resume" : "Pause";
+
+  // Unlock settings when paused
+  toggleControls(!isPaused);
 }
 
 // Generate bars
@@ -41,12 +55,17 @@ async function bubbleSort() {
   const bars = document.getElementsByClassName("bar");
   for (let i = 0; i < values.length - 1; i++) {
     for (let j = 0; j < values.length - i - 1; j++) {
+      // Wait while paused
+      while (isPaused) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
       bars[j].style.backgroundColor = "red";
       bars[j + 1].style.backgroundColor = "red";
 
       if (values[j] > values[j + 1]) {
-        await new Promise(resolve => 
-        setTimeout(resolve, parseInt(document.getElementById("speedRange").value))
+        await new Promise(resolve =>
+          setTimeout(resolve, parseInt(document.getElementById("speedRange").value))
         );
 
         // Swap values
