@@ -15,7 +15,7 @@ label {
 }
 
 .page-container {
-  max-width: 900px;  /* or whatever max width you want */
+  max-width: 900px;
   margin: 0 auto;    /* auto left and right margins center it */
   padding: 20px;
 }

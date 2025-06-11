@@ -3,19 +3,28 @@ const sizeInput = document.getElementById("size-input");
 let values = [];
 let isPaused = false;
 let isSorting = false;
+let isCancelled = false;
 
 
 function toggleControls(disabled) {
+  const sortBtn = document.getElementById("sortBtn");
   document.querySelectorAll(".control").forEach(el => {
     if (el.id !== "pauseBtn") {
       el.disabled = disabled;
+    }
+    if(isSorting) {
+      sortBtn.disabled = true;
+      pauseBtn.disabled = false;
+    }
+    else {
+      sortBtn.disabled = false;
+      pauseBtn.disabled = true;
     }
   });
 }
 
 function togglePause() {
   isPaused = !isPaused;
-
   const pauseBtn = document.getElementById("pauseBtn");
   pauseBtn.textContent = isPaused ? "Resume" : "Pause";
 
@@ -55,10 +64,13 @@ async function bubbleSort() {
   const bars = document.getElementsByClassName("bar");
   for (let i = 0; i < values.length - 1; i++) {
     for (let j = 0; j < values.length - i - 1; j++) {
+      if (isCancelled) return;
       // Wait while paused
       while (isPaused) {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
+
+      if (isCancelled) return;
 
       bars[j].style.backgroundColor = "red";
       bars[j + 1].style.backgroundColor = "red";
@@ -68,6 +80,8 @@ async function bubbleSort() {
           setTimeout(resolve, parseInt(document.getElementById("speedRange").value))
         );
 
+        if (isCancelled) return;
+
         // Swap values
         [values[j], values[j + 1]] = [values[j + 1], values[j]];
         bars[j].style.height = `${values[j]}px`;
@@ -75,14 +89,58 @@ async function bubbleSort() {
       }
 
       bars[j].style.backgroundColor = "steelblue";
-      bars[j + 1].style.backgroundColor = "steelblue";
+      bars[j + 1].style.backgroundColor = "green";
     }
   }
+  bars[0].style.backgroundColor = "green"; // First item is sorted
+  isSorting = false; // Sorting complete
 }
 
-// Selection Sort (placeholder)
+// Selection Sort
+
 async function selectionSort() {
-  alert("Selection Sort not implemented yet.");
+  const bars = document.getElementsByClassName("bar");
+
+  for (let i = 0; i < values.length - 1; i++) {
+    let minIndex = i;
+    bars[minIndex].style.backgroundColor = "orange";
+
+    for (let j = i + 1; j < values.length; j++) {
+      // Wait if paused
+      while (isPaused) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
+      if (isCancelled) return;
+
+      bars[j].style.backgroundColor = "red";
+
+      await new Promise(resolve =>
+        setTimeout(resolve, parseInt(document.getElementById("speedRange").value))
+      );
+
+      if (isCancelled) return;
+
+      if (values[j] < values[minIndex]) {
+        bars[minIndex].style.backgroundColor = "steelblue";
+        minIndex = j;
+        bars[minIndex].style.backgroundColor = "orange";
+      } else {
+        bars[j].style.backgroundColor = "steelblue";
+      }
+    }
+
+    if (minIndex !== i) {
+      bars[minIndex].style.backgroundColor = "purple";
+      [values[i], values[minIndex]] = [values[minIndex], values[i]];
+      bars[i].style.height = `${values[i]}px`;
+      bars[minIndex].style.height = `${values[minIndex]}px`;
+    }
+
+    bars[i].style.backgroundColor = "green"; // Sorted part
+  }
+  bars[values.length - 1].style.backgroundColor = "green"; // Last item is sorted
+  isSorting = false;
 }
 
 // Insertion Sort (placeholder)
@@ -90,8 +148,21 @@ async function insertionSort() {
   alert("Insertion Sort not implemented yet.");
 }
 
+function restartSort() {
+  isPaused = false;
+  isSorting = false;
+  isCancelled = true;
+  pauseBtn.textContent = "Pause";
+  toggleControls(false); // Re-enable UI controls
+  generateBars(); // Generate a new array
+  bar.style.backgroundColor = "steelblue";
+}
+
 // Run selected algorithm
 async function runSort() {
+  isCancelled = false;
+  isPaused = false;
+  isSorting = true;
   toggleControls(true); // Lock controls
 
   const algo = document.getElementById("algo-select").value;
@@ -101,8 +172,8 @@ async function runSort() {
   else if (algo === "insertion") await insertionSort();
 
   toggleControls(false); // Unlock controls
+  isSorting = false; // Sorting complete
 }
-
 
 // Init
 generateBars();
