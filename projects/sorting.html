@@ -25,13 +25,15 @@
 
   <label for="speedRange">Speed: </label>
   <input type="range" id="speedRange" min="1" max="500" value="20" />
-  <span id="speedValue">500ms</span>
+  <span id="speedValue">500ms</span><br>
+
+  <!--<label for="fileInput">Upload csv. file</label>
+  <input type="file" id="fileInput" accept=".csv" class="control" />-->
 
   <div id="container"></div>
   <script src="js/sorting.js"></script>
 
-  <button onclick="generateBars()" class="control">Generate New Array</button>
-  <button onclick="restartSort()" class="control">Restart</button><br><br>
+  <button onclick="restartSort()" class="control restart-btn">Restart</button><br><br>
 
   <a href="../index.html">Back to Home</a>
 

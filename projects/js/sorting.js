@@ -106,11 +106,7 @@ async function selectionSort() {
     bars[minIndex].style.backgroundColor = "orange";
 
     for (let j = i + 1; j < values.length; j++) {
-      // Wait if paused
-      while (isPaused) {
-        await new Promise(resolve => setTimeout(resolve, 100));
-      }
-
+      while (isPaused) await new Promise(r => setTimeout(r, 100));
       if (isCancelled) return;
 
       bars[j].style.backgroundColor = "red";
@@ -130,6 +126,9 @@ async function selectionSort() {
       }
     }
 
+    // Always delay on swap to show the change:
+    await new Promise(r => setTimeout(r, parseInt(document.getElementById("speedRange").value)));
+
     if (minIndex !== i) {
       bars[minIndex].style.backgroundColor = "purple";
       [values[i], values[minIndex]] = [values[minIndex], values[i]];
@@ -137,9 +136,10 @@ async function selectionSort() {
       bars[minIndex].style.height = `${values[minIndex]}px`;
     }
 
-    bars[i].style.backgroundColor = "green"; // Sorted part
+    bars[i].style.backgroundColor = "green";
   }
-  bars[values.length - 1].style.backgroundColor = "green"; // Last item is sorted
+
+  bars[values.length - 1].style.backgroundColor = "green";
   isSorting = false;
 }
 

@@ -28,7 +28,7 @@ label {
 
 button.control {
   cursor: pointer;
-  background-color: #4caf50;
+  background-color: #64ae66;
   color: white;
   border: none;
   border-radius: 4px;
@@ -36,6 +36,15 @@ button.control {
 
 button.control:disabled {
   background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+button.restart-btn {
+  background-color: #d9534f;
+}
+
+button.restart-btn:disabled {
+  background-color: #f2a2a2;
   cursor: not-allowed;
 }
 
