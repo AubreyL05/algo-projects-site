@@ -10,7 +10,6 @@ Welcome to my collection of algorithm visualizer projects! This repository showc
 A web-based sorting visualizer that demonstrates how different sorting algorithms work by animating the sorting process. Currently includes:
 - Bubble Sort
 - Selection Sort
-- (Insertion Sort coming soon!)
 
 Features:
 - Adjustable array size and sorting speed
